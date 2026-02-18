@@ -24,7 +24,7 @@ export default function StudentLogin() {
     setIsLoading(true);
 
     setTimeout(() => {
-      const success = loginStudent(username);
+      const success = loginStudent(username, password);
       if (success) {
         toast({
           title: "Welcome Student",
@@ -35,7 +35,7 @@ export default function StudentLogin() {
         toast({
           variant: "destructive",
           title: "Login Failed",
-          description: "Student username not found.",
+          description: "Invalid username or password.",
         });
         setIsLoading(false);
       }
@@ -44,15 +44,15 @@ export default function StudentLogin() {
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !name || !email) {
+    if (!username || !name || !email || !password) {
       toast({ title: "Please fill all fields", variant: "destructive" });
       return;
     }
     setIsLoading(true);
 
     setTimeout(() => {
-      registerStudent({ username, name, email });
-      loginStudent(username);
+      registerStudent({ username, name, email, password });
+      loginStudent(username, password);
       toast({
         title: "Registration Successful",
         description: "Your account has been created and logged in.",
@@ -97,7 +97,7 @@ export default function StudentLogin() {
                   <GlassInput 
                     type="password" 
                     className="pl-10" 
-                    placeholder="Enter any password"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -173,6 +173,20 @@ export default function StudentLogin() {
                 </div>
               </div>
 
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-muted-foreground ml-1">Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <GlassInput 
+                    type="password" 
+                    className="pl-10" 
+                    placeholder="Create a password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+
               <div className="pt-4">
                 <GlassButton type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Creating Account..." : "Register & Login"}
@@ -196,7 +210,7 @@ export default function StudentLogin() {
       
       {!isRegistering && (
         <p className="text-center text-xs text-muted-foreground mt-8">
-          Hint: Try username <strong>alice</strong> or <strong>bob</strong>
+          Hint: Try username <strong>alice</strong> or <strong>bob</strong> (password is <strong>password</strong>)
         </p>
       )}
     </AuthLayout>

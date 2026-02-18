@@ -7,6 +7,7 @@ export interface Student {
   name: string;
   email: string;
   username: string;
+  password?: string; // Added password field
   avatar?: string;
   joinedAt: string;
 }
@@ -40,7 +41,7 @@ interface AppState {
   // Actions
   loginAdmin: () => void;
   logoutAdmin: () => void;
-  loginStudent: (username: string) => boolean;
+  loginStudent: (username: string, password?: string) => boolean;
   logoutStudent: () => void;
   addStudent: (student: Omit<Student, 'id' | 'joinedAt'>) => void;
   deleteStudent: (id: string) => void;
@@ -52,8 +53,8 @@ interface AppState {
 
 // Initial Mock Data
 const INITIAL_STUDENTS: Student[] = [
-  { id: '1', name: 'Alice Walker', email: 'alice@example.com', username: 'alice', joinedAt: new Date().toISOString() },
-  { id: '2', name: 'Bob Ross', email: 'bob@example.com', username: 'bob', joinedAt: new Date().toISOString() },
+  { id: '1', name: 'Alice Walker', email: 'alice@example.com', username: 'alice', password: 'password', joinedAt: new Date().toISOString() },
+  { id: '2', name: 'Bob Ross', email: 'bob@example.com', username: 'bob', password: 'password', joinedAt: new Date().toISOString() },
 ];
 
 const INITIAL_TASKS: Task[] = [
@@ -82,9 +83,10 @@ export const useStore = create<AppState>()(
       loginAdmin: () => set({ isAdminLogged: true }),
       logoutAdmin: () => set({ isAdminLogged: false }),
 
-      loginStudent: (username) => {
+      loginStudent: (username, password) => {
         const student = get().students.find(s => s.username === username);
-        if (student) {
+        // In a real app, we'd check the password properly. For this mockup, we check if it matches if provided.
+        if (student && (!student.password || !password || student.password === password)) {
           set({ loggedStudent: student });
           return true;
         }
