@@ -1,0 +1,210 @@
+Create a complete frontend web application using HTML, CSS, and vanilla JavaScript (no frameworks).
+
+The app is a Trainer–Student Management System with separate login pages and dashboards.
+
+FEATURES REQUIRED:
+
+ROLE SELECTION PAGE
+
+Homepage with two buttons:
+
+Login as Admin
+
+Login as Student
+
+ADMIN LOGIN PAGE
+
+Username + password validation
+
+Only admin can access admin dashboard
+
+If not logged in, dashboard must redirect to login
+
+STUDENT LOGIN PAGE
+
+Students login using username + password
+
+After login, store logged student info in localStorage
+
+Redirect to student dashboard
+
+ADMIN DASHBOARD
+Must include a professional sidebar navigation:
+
+Sidebar sections:
+
+Students
+
+Tasks
+
+Analytics
+
+Export Excel
+
+Logout
+
+STUDENTS SECTION:
+
+Show total registered students count
+
+Search student by name or username
+
+Table showing:
+
+Profile photo
+
+Name
+
+Email
+
+Username
+
+Delete button
+
+Data stored in localStorage
+
+TASK MANAGEMENT SECTION:
+
+Admin can create tasks with:
+
+Task title
+
+Description
+
+Multiple stages/steps of the task (admin can add stage names dynamically)
+
+Show list of created tasks
+
+Admin can delete tasks
+
+Tasks stored in localStorage
+
+When admin deletes task → it disappears everywhere
+
+Each task must store:
+
+id
+
+title
+
+description
+
+stages array
+
+created date
+
+ANALYTICS SECTION:
+
+Use Chart.js
+
+Show bar chart and pie chart of student performance
+
+Analytics must automatically calculate:
+
+Task completion percentage per student
+
+Number of completed tasks
+
+Number of pending tasks
+
+Completion is calculated based on how many stages a student marked completed vs total stages.
+
+EXPORT:
+
+Button to export student list as CSV/Excel file
+
+STUDENT DASHBOARD
+Modern cinematic UI with sidebar navigation:
+
+Dashboard
+
+My Tasks
+
+Progress
+
+Settings
+
+Logout
+
+Student dashboard must:
+
+Show logged student name at top
+
+Automatically load tasks created by admin
+
+Display tasks in card layout
+
+When a student clicks an assigned task:
+
+Open a detailed task page/modal
+
+Show description
+
+Show all stages of the task as checklist items
+
+Student can mark stages as completed
+
+Progress bar must update dynamically
+
+Completion percentage must be saved in localStorage
+
+If admin deletes task → it disappears for student too
+
+PROGRESS SECTION:
+
+Show all tasks with:
+
+Completion percentage
+
+Visual progress bars
+
+Completed / Pending status
+
+DESIGN REQUIREMENTS
+
+Glassmorphism / cinematic dark gradient theme
+
+Responsive layout
+
+Sidebar fixed on left
+
+Header should not overlap sidebar
+
+Smooth hover animations
+
+Rounded cards and shadows
+
+Modern dashboard look similar to SaaS admin panels
+
+STORAGE
+
+Use ONLY localStorage (no backend):
+
+Students stored under "students"
+
+Tasks stored under "tasks"
+
+Admin login flag stored under "adminLogged"
+
+Logged student stored under "loggedStudent"
+
+Student task progress stored under "taskProgress" keyed by student username and task id
+
+OUTPUT FORMAT
+
+Provide:
+
+role.html
+
+admin_login.html
+
+student_login.html
+
+admin_dashboard.html
+
+student_dashboard.html
+
+Each file must be complete and ready to run.
+Ensure navigation between pages works correctly.
+
+Do not give explanations — only give clean working code.
