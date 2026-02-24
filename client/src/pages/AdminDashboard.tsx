@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { useStore, Student, Task } from "@/lib/store";
+import { useStore } from "@/lib/store";
+import type { Student, Task } from "@shared/schema";
 import { DashboardLayout } from "@/components/layouts/DashboardLayout";
 import { GlassCard, GlassButton, GlassInput } from "@/components/ui/glass";
-import { 
-  Users, CheckSquare, PieChart, Download, Trash2, Plus, 
-  Search, BarChart as BarChartIcon, MoreVertical 
+import {
+  Users, CheckSquare, PieChart, Download, Trash2, Plus,
+  Search, BarChart as BarChartIcon, MoreVertical
 } from "lucide-react";
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart as RePieChart, Pie, Cell 
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart as RePieChart, Pie, Cell
 } from 'recharts';
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,8 +22,8 @@ const StudentsSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
 
-  const filteredStudents = students.filter(s => 
-    s.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredStudents = students.filter(s =>
+    s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     s.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -39,8 +40,8 @@ const StudentsSection = () => {
         <h2 className="text-3xl font-bold text-white">Students Management</h2>
         <div className="relative w-64">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <GlassInput 
-            placeholder="Search students..." 
+          <GlassInput
+            placeholder="Search students..."
             className="pl-10"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
@@ -77,7 +78,7 @@ const StudentsSection = () => {
                     <td className="p-4 text-muted-foreground">@{student.username}</td>
                     <td className="p-4 text-muted-foreground">{student.email}</td>
                     <td className="p-4 text-right">
-                      <button 
+                      <button
                         onClick={() => handleDelete(student.id)}
                         className="p-2 hover:bg-red-500/20 text-muted-foreground hover:text-red-400 rounded-lg transition-colors"
                       >
@@ -144,7 +145,7 @@ const TasksSection = () => {
 
       <AnimatePresence>
         {isCreating && (
-          <motion.div 
+          <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -161,14 +162,14 @@ const TasksSection = () => {
                   <label className="text-sm text-muted-foreground mb-1 block">Description</label>
                   <GlassInput value={newTaskDesc} onChange={e => setNewTaskDesc(e.target.value)} placeholder="Task description..." />
                 </div>
-                
+
                 <div>
                   <label className="text-sm text-muted-foreground mb-1 block">Stages</label>
                   <div className="flex gap-2 mb-2">
-                    <GlassInput 
-                      value={currentStage} 
-                      onChange={e => setCurrentStage(e.target.value)} 
-                      placeholder="Add a stage (e.g. 'Read Documentation')" 
+                    <GlassInput
+                      value={currentStage}
+                      onChange={e => setCurrentStage(e.target.value)}
+                      placeholder="Add a stage (e.g. 'Read Documentation')"
                       onKeyDown={e => e.key === 'Enter' && handleAddStage()}
                     />
                     <GlassButton onClick={handleAddStage} type="button" variant="secondary">Add</GlassButton>
@@ -273,7 +274,7 @@ const AnalyticsSection = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold text-white">Performance Analytics</h2>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GlassCard className="h-[400px] flex flex-col">
           <h3 className="text-lg font-medium text-white mb-6">Student Completion Rates</h3>
@@ -282,7 +283,7 @@ const AnalyticsSection = () => {
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
               <XAxis dataKey="name" stroke="#94a3b8" />
               <YAxis stroke="#94a3b8" />
-              <Tooltip 
+              <Tooltip
                 contentStyle={{ backgroundColor: '#1e293b', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px' }}
                 itemStyle={{ color: '#fff' }}
               />
@@ -335,10 +336,10 @@ export default function AdminDashboard() {
 
   const handleExport = () => {
     const students = useStore.getState().students;
-    const csvContent = "data:text/csv;charset=utf-8," 
+    const csvContent = "data:text/csv;charset=utf-8,"
       + "ID,Name,Username,Email,Joined At\n"
       + students.map(s => `${s.id},${s.name},${s.username},${s.email},${s.joinedAt}`).join("\n");
-    
+
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -346,14 +347,14 @@ export default function AdminDashboard() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     toast({ title: "Export successful", description: "students_export.csv downloaded" });
   };
 
   if (!isAdminLogged) return null;
 
   const renderSection = () => {
-    switch(activeSection) {
+    switch (activeSection) {
       case 'students': return <StudentsSection />;
       case 'tasks': return <TasksSection />;
       case 'analytics': return <AnalyticsSection />;

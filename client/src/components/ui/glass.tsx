@@ -12,7 +12,7 @@ export const GlassCard = ({ children, className, ...props }: React.HTMLAttribute
         "bg-card/30 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-6",
         className
       )}
-      {...props}
+      {... (props as any)}
     >
       {children}
     </motion.div>
@@ -48,7 +48,7 @@ export const GlassButton = ({ className, variant = "primary", ...props }: React.
         variants[variant],
         className
       )}
-      {...props}
+      {... (props as any)}
     />
   );
 };
